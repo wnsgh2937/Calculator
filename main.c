@@ -1,69 +1,265 @@
 #include <time.h>
 #include <stdio.h>
-#include <stdlib.h>
+#include <stdbool.h>
 
-#define true 1
-#define false 0
-#define MAXBIT 64
-#define MAXSHIFT 20
-#define lld long long int
-#define bool lld
+#define MAXBIT 32
+#define MAXSHIFT 10
 
-bool lessEqualThan(lld a, lld b);
-bool lessThan(lld a, lld b);
+bool lessEqualThan(int a, int b);
+bool lessThan(int a, int b);
 
-struct divideValue {
-	lld quotient;
-	lld remainder;
-	bool divide_by_zero;
-}divideValue;
+struct num {
+	union {
+		struct {
+			unsigned int p0 : 1;
+			unsigned int p1 : 1;
+			unsigned int p2 : 1;
+			unsigned int p3 : 1;
+			unsigned int p4 : 1;
+			unsigned int p5 : 1;
+			unsigned int p6 : 1;
+			unsigned int p7 : 1;
+			unsigned int p8 : 1;
+			unsigned int p9 : 1;
+			unsigned int p10 : 1;
+			unsigned int p11 : 1;
+			unsigned int p12 : 1;
+			unsigned int p13 : 1;
+			unsigned int p14 : 1;
+			unsigned int p15 : 1;
+			unsigned int p16 : 1;
+			unsigned int p17 : 1;
+			unsigned int p18 : 1;
+			unsigned int p19 : 1;
+			unsigned int p20 : 1;
+			unsigned int p21 : 1;
+			unsigned int p22 : 1;
+			unsigned int p23 : 1;
+			unsigned int p24 : 1;
+			unsigned int p25 : 1;
+			unsigned int p26 : 1;
+			unsigned int p27 : 1;
+			unsigned int p28 : 1;
+			unsigned int p29 : 1;
+			unsigned int p30 : 1;
+			unsigned int p31 : 1;
+		};
+		int num;
+	};
+};
 
-lld shift_arr[MAXBIT];
-lld xor_arr[MAXBIT];
+int shift_arr[MAXBIT];
+int or_arr[MAXBIT];
 
-// ==
-bool iEqual(lld a, lld b) {
+bool iEqual(int a, int b) {
 	if (a == b) return true;
 	else return false;
 }
 
-// ++
-lld iPlusOne(lld a) {
+int iPlusOne(int a) {
 	return ++a;
 }
 
-//보수 만들기.
-lld getComplement(lld a) {
-	return iPlusOne(~a);
+// true true 검출
+bool iEqual11(int a, int b) {
+	if (iEqual(a, 1)) {
+		if (iEqual(b, 1)) {
+			return true;
+		}
+	}
+	return false;
+}
+
+// false false 검출
+bool iEqual00(int a, int b) {
+	if (iEqual(a, 0)) {
+		if (iEqual(b, 0)) {
+			return true;
+		}
+	}
+	return false;
+}
+
+// true false / false true 검출
+bool iEqual10(int a, int b) {
+	if (iEqual00(a, b)) {
+		return false;
+	}
+	return true;
+}
+
+//or연산 (a|b)
+int or (int a, int b) {
+	struct num a_num;
+	struct num b_num;
+	struct num rtn_num;
+	int tmp = 0;
+	a_num.num = a;
+	b_num.num = b;
+	rtn_num.num = tmp;
+
+	if (iEqual10(a_num.p0, b_num.p0)) rtn_num.p0 = 1;
+	if (iEqual10(a_num.p1, b_num.p1)) rtn_num.p1 = 1;
+	if (iEqual10(a_num.p2, b_num.p2)) rtn_num.p2 = 1;
+	if (iEqual10(a_num.p3, b_num.p3)) rtn_num.p3 = 1;
+	if (iEqual10(a_num.p4, b_num.p4)) rtn_num.p4 = 1;
+	if (iEqual10(a_num.p5, b_num.p5)) rtn_num.p5 = 1;
+	if (iEqual10(a_num.p6, b_num.p6)) rtn_num.p6 = 1;
+	if (iEqual10(a_num.p7, b_num.p7)) rtn_num.p7 = 1;
+	if (iEqual10(a_num.p8, b_num.p8)) rtn_num.p8 = 1;
+	if (iEqual10(a_num.p9, b_num.p9)) rtn_num.p9 = 1;
+	if (iEqual10(a_num.p10, b_num.p10)) rtn_num.p10 = 1;
+	if (iEqual10(a_num.p11, b_num.p11)) rtn_num.p11 = 1;
+	if (iEqual10(a_num.p12, b_num.p12)) rtn_num.p12 = 1;
+	if (iEqual10(a_num.p13, b_num.p13)) rtn_num.p13 = 1;
+	if (iEqual10(a_num.p14, b_num.p14)) rtn_num.p14 = 1;
+	if (iEqual10(a_num.p15, b_num.p15)) rtn_num.p15 = 1;
+	if (iEqual10(a_num.p16, b_num.p16)) rtn_num.p16 = 1;
+	if (iEqual10(a_num.p17, b_num.p17)) rtn_num.p17 = 1;
+	if (iEqual10(a_num.p18, b_num.p18)) rtn_num.p18 = 1;
+	if (iEqual10(a_num.p19, b_num.p19)) rtn_num.p19 = 1;
+	if (iEqual10(a_num.p20, b_num.p20)) rtn_num.p20 = 1;
+	if (iEqual10(a_num.p21, b_num.p21)) rtn_num.p21 = 1;
+	if (iEqual10(a_num.p22, b_num.p22)) rtn_num.p22 = 1;
+	if (iEqual10(a_num.p23, b_num.p23)) rtn_num.p23 = 1;
+	if (iEqual10(a_num.p24, b_num.p24)) rtn_num.p24 = 1;
+	if (iEqual10(a_num.p25, b_num.p25)) rtn_num.p25 = 1;
+	if (iEqual10(a_num.p26, b_num.p26)) rtn_num.p26 = 1;
+	if (iEqual10(a_num.p27, b_num.p27)) rtn_num.p27 = 1;
+	if (iEqual10(a_num.p28, b_num.p28)) rtn_num.p28 = 1;
+	if (iEqual10(a_num.p29, b_num.p29)) rtn_num.p29 = 1;
+	if (iEqual10(a_num.p30, b_num.p30)) rtn_num.p30 = 1;
+	if (iEqual10(a_num.p31, b_num.p31)) rtn_num.p31 = 1;
+
+	int rtn = rtn_num.num;
+	return rtn;
+}
+
+//and 연산 (a&b)
+intand (int a, int b) {
+	int tmp = 0;
+	struct num k;
+	struct num a_num;
+	struct num b_num;
+	struct num rtn_num;
+	a_num.num = a;
+	b_num.num = b;
+	rtn_num.num = tmp;
+
+	if (iEqual11(a_num.p0, b_num.p0)) rtn_num.p0 = 1;
+	if (iEqual11(a_num.p1, b_num.p1)) rtn_num.p1 = 1;
+	if (iEqual11(a_num.p2, b_num.p2)) rtn_num.p2 = 1;
+	if (iEqual11(a_num.p3, b_num.p3)) rtn_num.p3 = 1;
+	if (iEqual11(a_num.p4, b_num.p4)) rtn_num.p4 = 1;
+	if (iEqual11(a_num.p5, b_num.p5)) rtn_num.p5 = 1;
+	if (iEqual11(a_num.p6, b_num.p6)) rtn_num.p6 = 1;
+	if (iEqual11(a_num.p7, b_num.p7)) rtn_num.p7 = 1;
+	if (iEqual11(a_num.p8, b_num.p8)) rtn_num.p8 = 1;
+	if (iEqual11(a_num.p9, b_num.p9)) rtn_num.p9 = 1;
+	if (iEqual11(a_num.p10, b_num.p10)) rtn_num.p10 = 1;
+	if (iEqual11(a_num.p11, b_num.p11)) rtn_num.p11 = 1;
+	if (iEqual11(a_num.p12, b_num.p12)) rtn_num.p12 = 1;
+	if (iEqual11(a_num.p13, b_num.p13)) rtn_num.p13 = 1;
+	if (iEqual11(a_num.p14, b_num.p14)) rtn_num.p14 = 1;
+	if (iEqual11(a_num.p15, b_num.p15)) rtn_num.p15 = 1;
+	if (iEqual11(a_num.p16, b_num.p16)) rtn_num.p16 = 1;
+	if (iEqual11(a_num.p17, b_num.p17)) rtn_num.p17 = 1;
+	if (iEqual11(a_num.p18, b_num.p18)) rtn_num.p18 = 1;
+	if (iEqual11(a_num.p19, b_num.p19)) rtn_num.p19 = 1;
+	if (iEqual11(a_num.p20, b_num.p20)) rtn_num.p20 = 1;
+	if (iEqual11(a_num.p21, b_num.p21)) rtn_num.p21 = 1;
+	if (iEqual11(a_num.p22, b_num.p22)) rtn_num.p22 = 1;
+	if (iEqual11(a_num.p23, b_num.p23)) rtn_num.p23 = 1;
+	if (iEqual11(a_num.p24, b_num.p24)) rtn_num.p24 = 1;
+	if (iEqual11(a_num.p25, b_num.p25)) rtn_num.p25 = 1;
+	if (iEqual11(a_num.p26, b_num.p26)) rtn_num.p26 = 1;
+	if (iEqual11(a_num.p27, b_num.p27)) rtn_num.p27 = 1;
+	if (iEqual11(a_num.p28, b_num.p28)) rtn_num.p28 = 1;
+	if (iEqual11(a_num.p29, b_num.p29)) rtn_num.p29 = 1;
+	if (iEqual11(a_num.p30, b_num.p30)) rtn_num.p30 = 1;
+	if (iEqual11(a_num.p31, b_num.p31)) rtn_num.p31 = 1;
+
+	int rtn = rtn_num.num;
+	return rtn;
 }
 
 
+//not 연산 ( ~a )
+int not(int a) {
+	struct num a_num;
+	struct num rtn_num;
+	int tmp = 0;
+	a_num.num = a;
+	rtn_num.num = tmp;
+
+	rtn_num.p0 = iEqual(a_num.p0, 1) ? 0 : 1;
+	rtn_num.p1 = iEqual(a_num.p1, 1) ? 0 : 1;
+	rtn_num.p2 = iEqual(a_num.p2, 1) ? 0 : 1;
+	rtn_num.p3 = iEqual(a_num.p3, 1) ? 0 : 1;
+	rtn_num.p4 = iEqual(a_num.p4, 1) ? 0 : 1;
+	rtn_num.p5 = iEqual(a_num.p5, 1) ? 0 : 1;
+	rtn_num.p6 = iEqual(a_num.p6, 1) ? 0 : 1;
+	rtn_num.p7 = iEqual(a_num.p7, 1) ? 0 : 1;
+	rtn_num.p8 = iEqual(a_num.p8, 1) ? 0 : 1;
+	rtn_num.p9 = iEqual(a_num.p9, 1) ? 0 : 1;
+	rtn_num.p10 = iEqual(a_num.p10, 1) ? 0 : 1;
+	rtn_num.p11 = iEqual(a_num.p11, 1) ? 0 : 1;
+	rtn_num.p12 = iEqual(a_num.p12, 1) ? 0 : 1;
+	rtn_num.p13 = iEqual(a_num.p13, 1) ? 0 : 1;
+	rtn_num.p14 = iEqual(a_num.p14, 1) ? 0 : 1;
+	rtn_num.p15 = iEqual(a_num.p15, 1) ? 0 : 1;
+	rtn_num.p16 = iEqual(a_num.p16, 1) ? 0 : 1;
+	rtn_num.p17 = iEqual(a_num.p17, 1) ? 0 : 1;
+	rtn_num.p18 = iEqual(a_num.p18, 1) ? 0 : 1;
+	rtn_num.p19 = iEqual(a_num.p19, 1) ? 0 : 1;
+	rtn_num.p20 = iEqual(a_num.p20, 1) ? 0 : 1;
+	rtn_num.p21 = iEqual(a_num.p21, 1) ? 0 : 1;
+	rtn_num.p22 = iEqual(a_num.p22, 1) ? 0 : 1;
+	rtn_num.p23 = iEqual(a_num.p23, 1) ? 0 : 1;
+	rtn_num.p24 = iEqual(a_num.p24, 1) ? 0 : 1;
+	rtn_num.p25 = iEqual(a_num.p25, 1) ? 0 : 1;
+	rtn_num.p26 = iEqual(a_num.p26, 1) ? 0 : 1;
+	rtn_num.p27 = iEqual(a_num.p27, 1) ? 0 : 1;
+	rtn_num.p28 = iEqual(a_num.p28, 1) ? 0 : 1;
+	rtn_num.p29 = iEqual(a_num.p29, 1) ? 0 : 1;
+	rtn_num.p30 = iEqual(a_num.p30, 1) ? 0 : 1;
+	rtn_num.p31 = iEqual(a_num.p31, 1) ? 0 : 1;
+
+	int rtn = rtn_num.num;
+	return rtn;
+}
+
+//보수 만들기.
+int getComplement(int a) {
+	return iPlusOne(not(a));
+}
+
 // 음수 판별
-bool isNegative(lld a) {
-	return shift_arr[63] & a;
+bool isNegative(int a) {
+	return and (shift_arr[31], a);
 }
 
 
 // 양수 판별
-bool isPositive(lld a) {
+bool isPositive(int a) {
 	return iEqual(isNegative(a), false);
 }
 
 
 // !=
-bool iNotEqual(lld a, lld b) {
+bool iNotEqual(int a, int b) {
 	return iEqual(iEqual(a, b), false);
 }
 
 //쉬프트 연산을 위한 shift_arr 초기화
 void _init_() {
-	xor_arr[0] = 0;
+	or_arr[0] = 0;
 	shift_arr[0] = 1;
-	lld i = 0;
+	int i = 0;
 	while (iNotEqual(i, MAXBIT)) {
-		lld next_i = iPlusOne(i);
-		xor_arr[next_i] = xor_arr[i] ^ shift_arr[i];
-		shift_arr[next_i] = iPlusOne(xor_arr[next_i]);
+		int next_i = iPlusOne(i);
+		or_arr[next_i] = or (or_arr[i], shift_arr[i]);
+		shift_arr[next_i] = iPlusOne(or_arr[next_i]);
 		i = next_i;
 	}
 	shift_arr[0] = 1;
@@ -71,13 +267,13 @@ void _init_() {
 
 
 // 왼쪽으로 한번 쉬프트 연산 ( <<1 )
-lld leftShift(lld a) {
-	lld i = 0;
-	lld rtn = 0;
+int leftShift(int a) {
+	int i = 0;
+	int rtn = 0;
 	while (iNotEqual(i, MAXBIT)) {
-		lld next_i = iPlusOne(i);
-		if (shift_arr[i] & a) {
-			rtn |= shift_arr[next_i];
+		int next_i = iPlusOne(i);
+		if (and (shift_arr[i], a)) {
+			rtn = or (rtn, shift_arr[next_i]);
 		}
 		i = next_i;
 	}
@@ -85,8 +281,8 @@ lld leftShift(lld a) {
 }
 
 // 왼쪽으로 cnt번 쉬프트 연산 ( <<cnt )
-lld multiLeftShift(lld a, lld cnt) {
-	lld i = 0;
+int multiLeftShift(int a, int cnt) {
+	int i = 0;
 	while (iNotEqual(i, cnt)) {
 		a = leftShift(a);
 		i = iPlusOne(i);
@@ -96,34 +292,34 @@ lld multiLeftShift(lld a, lld cnt) {
 
 
 //더하기 연산 ( a + b )
-lld addOperation(lld a, lld b) {
-	lld i = 0;
-	lld carry = 0;
-	lld result = 0;
+int addOperation(int a, int b) {
+	int i = 0;
+	int carry = 0;
+	int result = 0;
 	while (iNotEqual(i, MAXBIT)) {
-		lld next_i = iPlusOne(i);
-		lld a_sub = a & shift_arr[i];
-		lld b_sub = b & shift_arr[i];
+		int next_i = iPlusOne(i);
+		int a_sub = and (a, shift_arr[i]);
+		int b_sub = and (b, shift_arr[i]);
 		if (carry) {
-			if (a_sub & b_sub) {
+			if (and (a_sub, b_sub)) {
 				carry = shift_arr[next_i];
-				result |= shift_arr[i];
+				result = or (result, shift_arr[i]);
 			}
-			else if (a_sub | b_sub) {
+			else if (or (a_sub, b_sub)) {
 				carry = shift_arr[next_i];
 			}
 			else {
 				carry = 0;
-				result |= shift_arr[i];
+				result = or (result, shift_arr[i]);
 			}
 		}
 		else {
-			if (a_sub & b_sub) {
+			if (and (a_sub, b_sub)) {
 				carry = shift_arr[next_i];
 			}
-			else if (a_sub | b_sub) {
+			else if (or (a_sub, b_sub)) {
 				carry = 0;
-				result |= shift_arr[i];
+				result = or (result, shift_arr[i]);
 			}
 			else {
 				carry = 0;
@@ -136,18 +332,17 @@ lld addOperation(lld a, lld b) {
 
 
 // 빼기 연산 ( a - b )
-lld subtractOperation(lld a, lld b) {
+int subtractOperation(int a, int b) {
 	return addOperation(a, getComplement(b));
 }
 
-
 // 곱하기 연산 ( a * b )
-lld multiplyOperation(lld a, lld b) {
-	lld i = 0;
-	lld result = 0;
+int multiplyOperation(int a, int b) {
+	int i = 0;
+	int result = 0;
 	while (iNotEqual(i, MAXBIT)) {
-		if (b & shift_arr[i]) {
-			lld sub = multiLeftShift(a, i);
+		if (and (b, shift_arr[i])) {
+			int sub = multiLeftShift(a, i);
 			result = addOperation(result, sub);
 		}
 		i = iPlusOne(i);
@@ -155,67 +350,13 @@ lld multiplyOperation(lld a, lld b) {
 	return result;
 }
 
-
-// 양수 나누기 연산 ( a/b , a>0 && b>0 )
-struct divideValue* positiveDivideOperation(lld a, lld b) {
-	lld result = 0;
-	while (lessEqualThan(b, a)) {
-		lld sub = b;
-		lld cnt = 0;
-		while (true) {
-			lld tmp = leftShift(sub);
-			cnt = iPlusOne(cnt);
-			if (isPositive(tmp) & lessEqualThan(tmp, a)) {
-				sub = tmp;
-			}
-			else {
-				break;
-			}
-		}
-		result |= shift_arr[subtractOperation(cnt, 1)];
-		a = subtractOperation(a, sub);
-	}
-	struct divideValue* rtn = malloc(sizeof(struct divideValue));
-	rtn->quotient = result;
-	rtn->remainder = a;
-	return rtn;
-}
-
-//나누기 연산 ( a / b )
-struct divideValue* divideOperation(lld a, lld b) {
-	struct divideValue* rtn;
-	if (iEqual(b, 0)) {
-		rtn = malloc(sizeof(divideValue));
-		rtn->divide_by_zero = true;
-		return rtn;
-	}
-	if (isNegative(a) & isNegative(b)) {
-		rtn = positiveDivideOperation(getComplement(a), getComplement(b));
-		rtn->remainder = getComplement(rtn->remainder);
-	}
-	else if (isNegative(a)) {
-		rtn = positiveDivideOperation(getComplement(a), b);
-		rtn->remainder = getComplement(rtn->remainder);
-		rtn->quotient = getComplement(rtn->quotient);
-	}
-	else if (isNegative(b)) {
-		rtn = positiveDivideOperation(a, getComplement(b));
-		rtn->quotient = getComplement(rtn->quotient);
-	}
-	else {
-		rtn = positiveDivideOperation(a, b);
-	}
-	rtn->divide_by_zero = false;
-	return rtn;
-}
-
 // ~보다 작다. ( < )
-bool lessThan(lld a, lld b) {
+bool lessThan(int a, int b) {
 	return isNegative(subtractOperation(a, b));
 }
 
 // ~보다 작거나 같다. ( <= )
-bool lessEqualThan(lld a, lld b) {
+bool lessEqualThan(int a, int b) {
 	return isPositive(subtractOperation(b, a));
 }
 
@@ -225,56 +366,101 @@ void divideByZero() {
 }
 
 // (+,-,/) 계산값 출력 기능
-void printResult(lld a, lld b, lld result, char op, lld real) {
-	printf("\n계산:%20lld %c %-20lld = %-20lld\n", a, op, b, result);
-	printf("실제:%20lld %c %-20lld = %-20lld\n", a, op, b, real);
+void printResult(int a, int b, int result, char op, int real) {
+	printf("\n계산:%20d %c %-20d = %-20d\n", a, op, b, result);
+	printf("실제:%20d %c %-20d = %-20d\n", a, op, b, real);
 }
 
 // Interface 상에서 더하기 기능.
-void add(lld a, lld b) {
+void add(int a, int b) {
 	printResult(a, b, addOperation(a, b), '+', a + b);
 }
 
 // Interface 상에서 빼기 기능.
-void subtract(lld a, lld b) {
+void subtract(int a, int b) {
 	printResult(a, b, subtractOperation(a, b), '-', a - b);
 }
 
 // Interface 상에서 곱하기 기능.
-void multiply(lld a, lld b) {
+void multiply(int a, int b) {
 	printResult(a, b, multiplyOperation(a, b), '*', a * b);
 }
 
 // Interface 상에서 나누기 기능.
-void divide(lld a, lld b) {
-	struct divideValue* result = divideOperation(a, b);
-	if (result->divide_by_zero) {
+void divide(int a, int b) {
+	int a_org = a;
+	int b_org = b;
+	bool is_a_negative = isNegative(a);
+	bool is_b_negative = isNegative(b);
+
+	if (iEqual(b, 0)) {
 		divideByZero();
+		return;
 	}
-	else {
-		printf("\n계산:%20lld / %-20lld = 몫:%-lld 나머지:%lld\n", a, b, result->quotient, result->remainder);
-		printf("실제:%20lld / %-20lld = 몫:%-lld 나머지:%lld\n", a, b, a / b, a % b);
+
+	if (and (is_a_negative, is_b_negative)) {//나머지 보수
+		a = getComplement(a);
+		b = getComplement(b);
 	}
-	free(result);
+	else if (is_a_negative) {//둘 다 보수
+		a = getComplement(a);
+	}
+	else if (is_b_negative) {//몫 보수
+		b = getComplement(b);
+	}
+
+	int result = 0;
+	while (lessEqualThan(b, a)) {
+		int sub = b;
+		int cnt = 0;
+		while (true) {
+			int tmp = leftShift(sub);
+			cnt = iPlusOne(cnt);
+			if (and (isPositive(tmp), lessEqualThan(tmp, a))) {
+				sub = tmp;
+			}
+			else {
+				break;
+			}
+		}
+		result = or (result, shift_arr[subtractOperation(cnt, 1)]);
+		a = subtractOperation(a, sub);
+	}
+	int quotient = result;
+	int remainder = a;
+	if (and (is_a_negative, is_b_negative)) {//나머지 보수
+		remainder = getComplement(remainder);
+	}
+	else if (is_a_negative) {//둘 다 보수
+		quotient = getComplement(quotient);
+		remainder = getComplement(remainder);
+	}
+	else if (is_b_negative) {//몫 보수
+		quotient = getComplement(quotient);
+	}
+	printf("\n계산:%20d / %-20d = 몫:%d 나머지:%d\n", a_org, b_org, quotient, remainder);
+	printf("실제:%20d / %-20d = 몫:%d 나머지:%d\n", a_org, b_org, a_org / b_org, a_org % b_org);
+
+	return;
 }
 
 // 입력 인터페이스 함수.
-void inputInterface(lld* first_num, lld* second_num, char* operator) {
+void inputInterface(int* first_num, int* second_num, char* operator) {
 	printf("\nENTER FIRST OPERAND : ");
-	scanf_s("%lld", first_num);
+	scanf_s("%int", first_num);
 	rewind(stdin);
 	printf("ENTER OPERATOR : ");
 	scanf_s("%c", operator,1);
 	rewind(stdin);
 	printf("ENTER SECOND OPERAND : ");
-	scanf_s("%lld", second_num);
+	scanf_s("%int", second_num);
 	rewind(stdin);
 }
 
 
 // 계산기 인터페이스 함수.
-lld calculatorInterface() {
-	lld first_num, second_num;
+int calculatorInterface() {
+	int first_num, second_num;
 	char operator;
 	while (true) {
 		inputInterface(&first_num, &second_num, &operator);
@@ -309,9 +495,9 @@ void test() {
 		int s2 = rand();
 		char op = arr[rand() % 4];
 
-		lld n1 = (lld)a;
+		int n1 = (int)a;
 		if (s1 % 2 == 0) n1 = -n1;
-		lld n2 = (lld)b;
+		int n2 = (int)b;
 		if (s2 % 2 == 0) n2 = -n2;
 
 		n1 = n1 << s1 % MAXSHIFT;
@@ -339,32 +525,30 @@ void test() {
 	printf("계산값들은 제가 짠 로직으로 계산한 값, 실제값들은 기본 사칙 연산자를 이용해 계산한 값 입니다.\n");
 
 	printf("\n\n프로그램 설명---\n\n");
-	printf("해당 계산기 프로그램은 64비트까지 처리가능하며, 음수 연산 또한 처리 가능합니다..\n");
-	printf("보고서를 만들 시간이 없어서.. 프로그램 내에서 프로그램 설명 간략하게 하겠습니다.\n\n");
-	printf("과제를 진행함에 있어서 많은 고민을 했지만, 가장 핵심인 부분은 left shift를 구현하는 부분이었습니다.\n");
-	printf("이 left shift연산을 통해 모든 사칙연산을 구현했기 때문입니다.\n\n");
+	printf("해당 계산기 프로그램은 32비트까지 처리가능하며, 음수 연산 또한 처리 가능합니다..\n");
+	printf("64비트도 만들 수 있었으나.. 너무 반복작업이 심하여 그냥 32비트까지 처리 가능하게 만들었습니다.\n\n");
 
-	printf("left shift는 배열에 0001, 0010, 0100, 1000 과 값들을 저장함으로서 구현했고, 핵심 로직은 다음과 같습니다.\n");
-	printf("1000 을 만들기 위해선, 0111에다 1만 더하면 된다는 생각을 했습니다.\n");
-	printf("또 0111을 만들기 위해선 0100 + 0010 + 0001 을 하면 된다는 생각을 했습니다.\n");
-	printf("숫자 출현의 규칙성이 보여, \nshift_arr에는 1000, 0100, 0010, 0001 과 같은 값을 저장하고\n");
-	printf("  xor_arr에는 0111, 0011, 0001, 0000 과 같은 값을 저장하여 left shift를 구현했습니다.\n");
-	printf("0000과 0001을 xor 연산하면 0001이 나옵니다. 1을 더하면 0010 이 나옵니다.\n");
-	printf("0010과 0001을 xor 연산하면 0011이 나옵니다. 1을 더하면 0100 이 나옵니다.\n");
-	printf("0100과 0011을 xor 연산하면 0111이 나옵니다. 1을 더하면 1000 이 나옵니다.\n");
-	printf("이런 로직을 통해 64비트 길이의 shift배열을 만들어 left shift를 구현했습니다.\n");
+	printf("and 비트 연산자 구현 : 공용체와 비트 필드 이용, 각 변수별로 if문으로 구현한 && 연산 시행. true->1 , false->0\n");
+	printf("or  비트 연산자 구현 : 공용체와 비트 필드 이용, 각 변수별로 if문으로 구현한 || 연산 시행. true->1 , false->0\n");
+	printf("not 비트 연산자 구현 : 공용체와 비트 필드 이용, 각 변수별로 0이면 1로 1이면 0으로 바꾸어 주는 작업 시행\n\n");
+
+	printf("shift 비트 연산자 구현 : shift[32] 배열에 0001, 0010, 0100, 1000 과 같은 값을 채움으로서 구현\n");
+	printf("                         만든 배열을 바탕으로, 한 비트씩 왼쪽으로 움직이는 함수 구현.\n");
+	printf("                         한 비트씩 왼쪽으로 움직이는 함수로, 원하는 횟수만큼 왼쪽으로 옮기는 함수 구현\n\n");
+
+	printf("+ 사칙 연산자 구현 : carry 변수를 선언하여 일반 수 더하듯이 구현\n");
+	printf("- 사칙 연산자 구현 : 두번째 숫자를 보수로 만들어 + 연산자 적용\n");
+	printf("* 사칙 연산자 구현 : 일반 수 곱하듯이 구현\n");
+	printf("/ 사칙 연산자 구현 : 피연산자에 음수일때 계산오류가 났었음.\n");
+	printf("                     아마 보수체계 때문에 일어난 오류라고 생각.\n");
+	printf("                     각 피연산자가 음수인지 양수인지 판단하여 모두 양수로 바꾸어 주고\n");
+	printf("                     결과값에 적절히 보수를 취해줌으로서 구현\n");
+	printf("----------------------------------------------------------------------------------------------------------------\n\n");
 
 
-	printf("\n----------더하기 로직 구현\n");
-	printf("left shift를 구현하니, 더하기 로직은 구현하기 쉬웠습니다. carry수를 선언하여 일반 숫자 더하듯이 더하는 로직으로 구현했습니다.\n");
-	printf("\n----------빼기 로직 구현\n");
-	printf("보수를 구하여 더했습니다. 보수는 not 연산에 +1을 하여 구했습니다.\n");
-	printf("\n----------곱하기 로직 구현\n");
-	printf("여러번 더하여 구현할까 생각을 많이 했지만, 특정 케이스에 대해 시간이 매우 오래 걸릴 것 같아 일반적인 곱셈 로직을 코드로 구현했습니다.\n");
-	printf("\n----------나누기 로직 구현\n");
-	printf("좀 어려웠습니다. 일반적인 나누기 로직으로, 양수간의 나눗셈은 가능했지만 음수가 들어가면 수가 어디선가 꼬이는 문제가 발생했습니다. \n");
-	printf("아마 보수체계가 들어가서 일반적인 나누기로는 처리가 불가능한 듯 보였습니다.\n");
-	printf("그래서 모든 피연산자를 양수로 바꾸어 주고 계산을 한 후에, 적절히 몫 혹은 나머지를 보수로 바꾸어 주는 로직으로 구현했습니다.\n");
+
+
+
 }
 
 // 계산기 초기화
@@ -373,7 +557,6 @@ void generateCalculator() {
 	test();
 }
 
-// 메인 함수
 int main() {
 	generateCalculator();
 	calculatorInterface();
